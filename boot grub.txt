@@ -1,0 +1,52 @@
+for file in /proc/*/status; do awk '/VmSwap|Name/{printf $2 " " $3}END{ print ""}' $file; done | sort -k 2 -n -r | less
+
+grub>
+grub> ls
+grub> ls (hd0,msdos1)/
+grub> set root(hd0,msdos1)
+grub> Linux /vmlinu(TAB)
+grub> Linux /vmlinuz-3.10.0-1127.el7.x84_64 ro root=/dev/mapper/centos-root
+grub> initrd /initramfs-3.10.0-1127.el7.x86_64.img
+grub > boot
+
+# cd /boot/grub2#
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
+local yum repository
+
+[root@redhat9 yum.repos.d]# cat rhel9-local.repo
+[Local-BaseOS]
+name=Red Hat Enterprise Linux 9 - BaseOS
+metadata_expire=-1
+gpgcheck=1
+enabled=1
+baseurl=file:///var/www/html/rhel9/BaseOS/
+gpgkey=file:///var/www/html/rhel9/RPM-GPG-KEY-redhat-release
+
+[Local-AppStream]
+name=Red Hat Enterprise Linux 9 - AppStream
+metadata_expire=-1
+gpgcheck=1
+enabled=1
+baseurl=file:///var/www/html/rhel9/AppStream/
+gpgkey=file:///var/www/html/rhel9/RPM-GPG-KEY-redhat-release
+
+
+dnf clean all
+subscription-manager clean
+vi /etc/yum/pluginconf.d/subscription-manager.conf
+enabled=0
+---------------AIX-------
+
+manage_disk_drivers -l 
+lsmpio -l hdisk1234
+lsmpio -ar
+lsmpio -are
+lsmpio                                lists addtional info about paths (which path is selected)
+lsmpio -q                             shows disks with its size
+lsmpio -ql hdiskX                     shows disk serial number (LUN ID)
+lsmpio -Sl hdisk0 | grep Path         shows path statistics (which path was used mostly in the past)
+lsmpio -ar                            list parent adapter and remote port information (-a: adapter (local), -r: remote port)
+lsmpio -are                           list error statistics for local and remote (-e: error)
+lsmpio -z                             reset statistics
+lsattr -El hdiskX  
